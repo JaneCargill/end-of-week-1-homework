@@ -12,9 +12,6 @@ def add_or_remove_cash(user, amount)
   return user[:admin][:total_cash] += amount
 end
 
-# def add_or_remove_cash(user, amount)
-#   return user[:admin][:total_cash] += amount
-# end
 
 def pets_sold(user)
   return user[:admin][:pets_sold]
@@ -76,7 +73,7 @@ def add_pet_to_stock(user, new_pet)
 end
 
 def customer_pet_count(customer)
-  return customer[:pets].length
+  return customer[:pets].count
 end
 
 def add_pet_to_customer(customer, new_pet)
@@ -84,6 +81,30 @@ def add_pet_to_customer(customer, new_pet)
   return customer_pet_count(customer)
 end
 
+def customer_can_afford_pet(customer, new_pet)
+
+  customer_cash = customer[:cash]
+  pet_price = new_pet[:price]
+
+  return customer_cash > pet_price ? true : false
+
+end
+
+def sell_pet_to_customer(user, pet, customer)
+
+  if (pet != nil && customer_can_afford_pet(customer, pet))
+    number = add_pet_to_customer(customer, pet)
+    amount = pet[:price]
+
+    increase_pets_sold(user, number)
+    add_or_remove_cash(user, amount) 
+  end
+
+return customer_pet_count(customer)
+return pets_sold(user)
+return total_cash(user)
+
+end
 
 
 
